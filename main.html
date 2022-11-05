@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+      <meta charset="utf-8">
+      <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <title>次のファシリテーターを決めるくん</title>
+  </head>
+  <body>
+    <h1 class="my-3 ml-5">次のファシリテーターは
+    </h1>
+    <div id="app">
+      <div class="facilitator text-center">
+        <p>{{ facilitator }}</p>
+        <img src="現場猫.png" alt="yosi!" v-show="isdisable">
+      </div>
+      <div class="text-center">
+        <button class="btn btn-info text-center" v-on:click="displayFacilitator" v-bind:disabled="isBtnDisabled">ose</button>
+      </div>
+    </div>
+  </body>
+
+<script>
+    var app = new Vue({
+      el: "#app",
+      data() {
+        return {
+            facilitator: "↓",
+            member: ['あああ','いいい','ううう','えええ','おおお'],
+            speed: 50,
+            count: 0,
+            isdisable: false,
+            isBtnDisabled: false
+        };
+      },
+      methods: {
+        displayFacilitator: function () {
+          if(this.count === 0){
+            this.isdisable = false 
+            this.isBtnDisabled = true
+          }
+          this.randShuffle()
+
+          if(this.count !== 49){
+            this.speed = this.speed + 3
+          }else if(this.count === 49){
+            this.speed = this.speed + 400
+          }
+          // if(this.count === 20){
+          //   this.speed = this.speed + 40
+          // }else if(this.count === 25){
+          //   this.speed = this.speed + 40
+          // }else if(this.count === 30){
+          //   this.speed = this.speed + 40
+          // }else if(this.count === 40){
+          //   this.speed = this.speed + 40
+          // }else if(this.count === 45){
+          //   this.speed = this.speed + 40
+          // // }else if(this.count === 48){
+          // //   this.speed = this.speed + 40
+          // }else if(this.count === 49){
+          //   this.speed = this.speed + 400
+          // }
+
+          if(this.count < 50){
+            setTimeout(() => {
+              this.displayFacilitator()
+            }, this.speed);
+            this.count = this.count + 1
+          }else{
+            this.speed = 50
+            this.count = 0
+            this.isdisable = true 
+            this.isBtnDisabled = false
+          }
+        },
+        randShuffle: function() {
+          this.facilitator = this.member[Math.floor(Math.random() * this.member.length)]
+        }
+      }
+    });
+  </script>
+
+  <style type="text/css">
+    .facilitator{
+      height:400px;
+      text-align: center;
+    }
+    .facilitator p{
+      display: inline-block;
+      line-height: 300px;
+    }
+    p {
+      color: #333333;
+      font-size: 150px;
+    }
+    button{
+      width: 300px;
+      margin: auto;
+    }
+    img{
+      width: 300px;
+    }
+  </style>
+
+</html>
